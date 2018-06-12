@@ -14,7 +14,8 @@ class Chat extends Component {
   }
 
   addMessage = (body) => {
-    const messages = [...this.state.messages]
+    // NOTE: Make sure you pass in this function to lower tags as a Prop
+    const messages = [...this.state.messages] // copies the current array of messages
     messages.push({
       id: Date.now(),
       userName: this.props.user.userName,
@@ -26,12 +27,20 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="Chat">
+      <div className="Chat" style = {styles.chat}>
         <ChatHeader />
         <MessageList messages={this.state.messages} />
         <MessageForm addMessage={this.addMessage} />
       </div>
     )
+  }
+}
+
+const styles = {
+  chat: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
   }
 }
 

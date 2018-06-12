@@ -14,7 +14,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Main user={this.state.user} />
+        <Main user={this.state.user // passes the User into Main as a Prop
+        } />
       </div>
     )
   }
