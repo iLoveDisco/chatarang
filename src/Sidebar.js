@@ -14,10 +14,10 @@ const Sidebar = (props) => {
       </div>
       <h1 style={{ ...styles.children, ...styles.h1,}}> XTBC 18 </h1>
       <nav className="RoomList" style={styles.children}>
-        <h2>Rooms</h2>
-        <ul>
-          <li><a href="#">general</a></li>
-          <li><a href="#">random</a></li>
+        <h2 style = {roomListStyles.h2}>Rooms</h2>
+        <ul style = {roomListStyles.ul}>
+          <li style = {roomListStyles.li}><a href="#" style = {roomListStyles.a}>general</a></li>
+          <li style = {roomListStyles.li}><a href="#" style = {roomListStyles.a}>random</a></li>
         </ul>
       </nav>
     </aside>
@@ -43,6 +43,28 @@ const styles = {
     fontSize: '1.2rem',
     marginTop: 0,
   },
+}
+
+const roomListStyles = {
+  h2: {
+    fontSize: '1rem',
+  },
+  
+  ul: {
+    listStyle: 'none',
+    marginLeft: 0,
+    paddingLeft: 0,
+  },
+  
+  li: {
+    marginBottom: 0
+  },
+
+  a: {
+    display: 'block',
+    color: 'whitesmoke',
+    textDecoration: 'none',
+  }
 }
 
 export default Sidebar
