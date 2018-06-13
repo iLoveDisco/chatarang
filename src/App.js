@@ -1,28 +1,44 @@
 import React, { Component } from 'react'
 
 import './App.css'
-import Main from './Main'
 import SignIn from './SignIn'
+import Main from './Main'
 
 class App extends Component {
   state = {
-    user: {
-      uid: null,
-      userName: null,
+    user: {},
+  }
+
+  componentWillMount() {
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    if (user) {
+      this.setState({ user })
     }
   }
 
-  updateUser = (name) => {
-    this.setState({user: {uid: Date.now(), userName: name}})
+  handleAuth = (user) => {
+    this.setState({ user })
+    localStorage.setItem('user', JSON.stringify(user))
+  }
+
+  signedIn = () => {
+    return this.state.user.uid
+  }
+
+  signOut = () => {
+    this.setState({ user: {} })
+    localStorage.removeItem('user')
   }
 
   render() {
-    if(this.state.user.uid == null) {
-      return (<SignIn user={this.state.user} updateUser = {this.updateUser} />)
-    }
     return (
       <div className="App">
-        <Main user={this.state.user} />
+        {
+          this.signedIn()
+            ? <Main user={this.state.user} signOut={this.signOut} />
+            : <SignIn handleAuth={this.handleAuth} />
+        }
       </div>
     )
   }

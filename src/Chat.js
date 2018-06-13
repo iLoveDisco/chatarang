@@ -1,25 +1,34 @@
 import React, { Component } from 'react'
 
-import ChatHeader from './ChatHeader.js'
+import ChatHeader from './ChatHeader'
 import MessageList from './MessageList'
 import MessageForm from './MessageForm'
+
+import base from './base'
 
 class Chat extends Component {
   constructor() {
     super()
 
     this.state = {
-      messages: [] // initially empty
+      messages: [],
     }
   }
 
+  componentWillMount() {
+    base.syncState('general/messages', {
+      context: this,
+      state: 'messages',
+      asArray: true,
+    })
+  }
+
   addMessage = (body) => {
-    // NOTE: Make sure you pass in this function to lower tags as a Prop
-    const messages = [...this.state.messages] // copies the current array of messages
+    const messages = [...this.state.messages]
     messages.push({
       id: Date.now(),
-      userName: this.props.user.userName,
-      body,// body: body
+      user: this.props.user,
+      body,
     })
 
     this.setState({ messages })
@@ -27,7 +36,7 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="Chat" style = {styles.chat}>
+      <div className="Chat" style={styles}>
         <ChatHeader />
         <MessageList messages={this.state.messages} />
         <MessageForm addMessage={this.addMessage} />
@@ -37,11 +46,9 @@ class Chat extends Component {
 }
 
 const styles = {
-  chat: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column'
-  }
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
 }
 
 export default Chat
