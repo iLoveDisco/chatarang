@@ -1,11 +1,11 @@
 import React from 'react'
 
-const ChatHeader = () => {
+const ChatHeader = ({roomName}) => {
   return (
     <div className="ChatHeader" style={styles.header}>
       <div className="roomInfo">
-        <h2 style={styles.h2}>#general</h2>
-        <p style={styles.p}>Announcements and general chat</p>
+        <h2 style={styles.h2}>{roomName}</h2>
+        <p style={styles.p}>Announcements and {roomName.substring(1)} chat</p>
       </div>
     </div>
   )

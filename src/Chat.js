@@ -11,34 +11,46 @@ class Chat extends Component {
     super()
 
     this.state = {
-      messages: [],
+      general: [],
+      random: []
     }
   }
 
   componentWillMount() {
-    base.syncState('general/messages', {
-      context: this,
-      state: 'messages',
-      asArray: true,
-    })
+    base.syncState(`general/messages`, {
+        context: this,
+        state: 'general',
+        asArray: true,
+      })
+    base.syncState(`random/messages`, {
+        context: this,
+        state: 'random',
+        asArray: true,
+      })
+    
   }
 
   addMessage = (body) => {
-    const messages = [...this.state.messages]
+    let messages = this.state[this.props.roomName.substring(1)];
     messages.push({
       id: Date.now(),
       user: this.props.user,
       body,
     })
 
-    this.setState({ messages })
+    switch(this.props.roomName){
+      case "#general":
+        this.setState({general: messages}); break;
+      case "#random":
+        this.setState({random: messages}); break;
+    }
   }
 
   render() {
     return (
       <div className="Chat" style={styles}>
-        <ChatHeader />
-        <MessageList messages={this.state.messages} />
+        <ChatHeader roomName = {this.props.roomName}/>
+        <MessageList messages={this.state[this.props.roomName.substring(1)]} roomName = {this.props.roomName} />
         <MessageForm addMessage={this.addMessage} />
       </div>
     )
