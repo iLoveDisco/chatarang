@@ -14,11 +14,29 @@ class SignIn extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault()
-    // do something?
+      this.props.handleAuth({
+         email: this.state.email,
+         uid: this.state.email,
+         displayname: this.getDisplayName(this.state.email)
+         
+    })
+  }
+
+  getDisplayName = (email) => {
+    let i = 0;
+    let output = "";
+    while(email.charAt(i + 1) != '@'){
+      output += email.charAt(i);
+    }
+    return output;
   }
 
   authenticate = () => {
     auth.signInWithPopup(googleProvider)
+  }
+
+  authenticateEmail = (email) => {
+    auth.authEmail(email);
   }
 
   render() {
@@ -36,7 +54,7 @@ class SignIn extends Component {
             onSubmit={this.handleSubmit}
           >
             <h1>Welcome!</h1>
-            {/* <label htmlFor="email" className={css(styles.label)}>
+            <label htmlFor="email" className={css(styles.label)}>
               Email
             </label>
             <input
@@ -50,7 +68,7 @@ class SignIn extends Component {
               Sign In
             </button>
 
-            <div>or</div> */}
+            <div>or</div>
 
             <button
               type="button"
