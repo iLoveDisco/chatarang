@@ -4,27 +4,29 @@ import Sidebar from './Sidebar'
 import Chat from './Chat'
 
 class Main extends Component {
-  constructor() {
-    super()
-
-    this.state = {
-      currentRoom: '#general'
+  state = {
+    room: {
+      name: 's2morning',
+      description: 'Chatter about the actual class',
     }
   }
 
-  updateRoom = (room) => {
-    this.setState({currentRoom: room});
-  }
-
-  handleUpdate = (roomName) => {
-    return <Chat user={this.props.user} roomName = {roomName} />;
+  loadRoom = (room) => {
+    this.setState({ room })
   }
 
   render() {
     return (
       <div className="Main" style={styles}>
-        <Sidebar user={this.props.user} signOut={this.props.signOut} updateRoom = {this.updateRoom}/>
-        {this.handleUpdate(this.state.currentRoom)}
+        <Sidebar
+          user={this.props.user}
+          signOut={this.props.signOut}
+          loadRoom={this.loadRoom}
+        />
+        <Chat
+          user={this.props.user}
+          room={this.state.room}
+        />
       </div>
     )
   }

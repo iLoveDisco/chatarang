@@ -11,46 +11,57 @@ class Chat extends Component {
     super()
 
     this.state = {
-      general: [],
-      random: []
+      messages: [],
+      rebaseBinding: null,
     }
   }
 
   componentWillMount() {
-    base.syncState(`general/messages`, {
+    this.syncMessages()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.room.name !== this.props.room.name) {
+      this.syncMessages()
+    }
+  }
+
+  syncMessages = () => {
+    if (this.state.rebaseBinding) {
+      base.removeBinding(this.state.rebaseBinding)
+    }
+
+    const rebaseBinding = base.syncState(
+      `${this.props.room.name}/messages`,
+      {
         context: this,
-        state: 'general',
+        state: 'messages',
         asArray: true,
-      })
-    base.syncState(`random/messages`, {
-        context: this,
-        state: 'random',
-        asArray: true,
-      })
-    
+      }
+    )
+
+    this.setState({ rebaseBinding })
   }
 
   addMessage = (body) => {
-    let messages = this.state[this.props.roomName.substring(1)];
+    const messages = [...this.state.messages]
     messages.push({
       id: Date.now(),
       user: this.props.user,
       body,
     })
 
-    switch(this.props.roomName){
-      case "#general":
-        this.setState({general: messages}); break;
-      case "#random":
-        this.setState({random: messages}); break;
-    }
+    this.setState({ messages })
   }
 
   render() {
     return (
       <div className="Chat" style={styles}>
-        <ChatHeader roomName = {this.props.roomName}/>
-        <MessageList messages={this.state[this.props.roomName.substring(1)]} roomName = {this.props.roomName} />
+        <ChatHeader room={this.props.room} />
+        <MessageList
+          messages={this.state.messages}
+          room={this.props.room}
+        />
         <MessageForm addMessage={this.addMessage} />
       </div>
     )
