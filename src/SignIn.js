@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
-import { auth, googleProvider } from './base'
+import { auth, googleProvider, gitHubProvider } from './base'
 
 class SignIn extends Component {
   state = {
@@ -22,6 +22,26 @@ class SignIn extends Component {
     })
   }
 
+  popup = () => {
+    
+    auth.signInWithPopup(gitHubProvider).then(function(result) {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+  });
+  }
+
   getDisplayName = (email) => {
     let i = 0;
     let output = "";
@@ -31,13 +51,15 @@ class SignIn extends Component {
     return output;
   }
 
-  authenticate = () => {
+  authenticateGoogle = () => {
     auth.signInWithPopup(googleProvider)
   }
 
-  authenticateEmail = (email) => {
-    auth.authEmail(email);
+  authenticateGitHub = () => {
+    auth.signInWithPopup(gitHubProvider)
   }
+
+  
 
   render() {
     return (
@@ -64,8 +86,8 @@ class SignIn extends Component {
               onChange={this.handleChange}
               autoFocus
             />
-            <button type="submit" className={css(styles.button)}>
-              Sign In
+            <button type="button" className={css(styles.button)} onClick={this.authenticateGitHub}>
+              Sign in with GitHub
             </button>
 
             <div>or</div>
@@ -73,7 +95,7 @@ class SignIn extends Component {
             <button
               type="button"
               className={css(styles.button)}
-              onClick={this.authenticate}
+              onClick={this.authenticateGoogle}
             >
               <i className={`fab fa-google ${css(styles.brandIcon)}`}></i>
               Sign in with Google
