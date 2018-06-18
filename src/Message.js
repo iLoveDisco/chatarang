@@ -1,20 +1,28 @@
-import React from 'react'
+import React, {Component} from 'react'
 
 import Avatar from './Avatar'
 import Metadata from './Metadata'
 
-const Message = ({ message }) => {
-  return (
-    <div className="Message" style={styles.message}>
-      <Avatar user={message.user} />
-      <div className="details" style={styles.details}>
-        <Metadata message={message} />
-        <div className="body">
-          {message.body}
+class Message extends Component {
+  constructor () {
+    super()
+  }
+  render() {
+    return (
+      <div className="Message" style={styles.message}>
+        
+        <i className="far fa-heart" style={styles.favorite}></i>
+        <Avatar user={this.props.message.user} />
+        <div className="details" style={styles.details}>
+          <Metadata message={this.props.message} />
+          <div className="body">
+            {this.props.message.body}
+          </div>
+          
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 const styles = {
@@ -27,6 +35,10 @@ const styles = {
   details: {
     flex: 1,
     paddingLeft: '0.5rem',
+  },
+
+  favorite: {
+    paddingRight: '.75rem',
   }
 }
 
