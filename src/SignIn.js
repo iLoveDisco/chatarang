@@ -45,7 +45,7 @@ class SignIn extends Component {
   getDisplayName = (email) => {
     let i = 0;
     let output = "";
-    while(email.charAt(i + 1) != '@'){
+    while(email.charAt(i + 1) !== '@'){
       output += email.charAt(i);
     }
     return output;
@@ -58,8 +58,6 @@ class SignIn extends Component {
   authenticateGitHub = () => {
     auth.signInWithPopup(gitHubProvider)
   }
-
-  
 
   render() {
     return (
