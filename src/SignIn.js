@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
-import { auth, googleProvider, gitHubProvider } from './base'
+import { auth, googleProvider } from './base'
 
 class SignIn extends Component {
   state = {
@@ -14,49 +14,11 @@ class SignIn extends Component {
 
   handleSubmit = (ev) => {
     ev.preventDefault()
-      this.props.handleAuth({
-         email: this.state.email,
-         uid: this.state.email,
-         displayname: this.getDisplayName(this.state.email)
-         
-    })
+    // do something?
   }
 
-  popup = () => {
-    
-    auth.signInWithPopup(gitHubProvider).then(function(result) {
-      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      // ...
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-  });
-  }
-
-  getDisplayName = (email) => {
-    let i = 0;
-    let output = "";
-    while(email.charAt(i + 1) !== '@'){
-      output += email.charAt(i);
-    }
-    return output;
-  }
-
-  authenticateGoogle = () => {
+  authenticate = () => {
     auth.signInWithPopup(googleProvider)
-  }
-
-  authenticateGitHub = () => {
-    auth.signInWithPopup(gitHubProvider)
   }
 
   render() {
@@ -74,7 +36,7 @@ class SignIn extends Component {
             onSubmit={this.handleSubmit}
           >
             <h1>Welcome!</h1>
-            <label htmlFor="email" className={css(styles.label)}>
+            {/* <label htmlFor="email" className={css(styles.label)}>
               Email
             </label>
             <input
@@ -84,16 +46,16 @@ class SignIn extends Component {
               onChange={this.handleChange}
               autoFocus
             />
-            <button type="button" className={css(styles.button)} onClick={this.authenticateGitHub}>
-              Sign in with GitHub
+            <button type="submit" className={css(styles.button)}>
+              Sign In
             </button>
 
-            <div>or</div>
+            <div>or</div> */}
 
             <button
               type="button"
               className={css(styles.button)}
-              onClick={this.authenticateGoogle}
+              onClick={this.authenticate}
             >
               <i className={`fab fa-google ${css(styles.brandIcon)}`}></i>
               Sign in with Google
