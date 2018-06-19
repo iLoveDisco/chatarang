@@ -35,7 +35,7 @@ class Message extends Component {
         
         <Avatar user={this.props.message.user} />
         <div className="details" style={styles.details}>
-          <Metadata message={this.props.message} />
+          <Metadata message={this.props.message}/>
           <div className="body">
             {this.props.message.body}
           </div>
