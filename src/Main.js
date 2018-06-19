@@ -27,18 +27,18 @@ class Main extends Component {
     const name = this.props.match.params.roomName;
     this.loadRoom({
         name: name,
-        // description: this.state.rooms[name].description
     })
   }
 
   componentDidUpdate(prevProps) {
-    
     if (prevProps.match.params.roomName !== this.props.match.params.roomName) {
       const name = this.props.match.params.roomName;
-      this.loadRoom({
-        name: name,
-        description: this.state.rooms[name].description
-      })
+      if(Object.keys(this.state.rooms).length > 0) {
+        this.loadRoom({
+          name: name,
+          description: this.state.rooms[name].description
+        })
+      }
     }
   
   }
