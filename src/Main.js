@@ -8,18 +8,14 @@ import base from './base'
 class Main extends Component {
   constructor() {
     super()
-
     this.state = {
       room: {},
-      rooms: []
+      rooms: {},
     }
+    
   }
 
   componentDidMount() {
-    this.loadRoom({
-      name: this.props.match.params.roomName,
-    })
-
     base.syncState(
       'rooms',
       {
@@ -27,14 +23,24 @@ class Main extends Component {
         state: 'rooms',
       }
     )
+    
+    const name = this.props.match.params.roomName;
+    this.loadRoom({
+        name: name,
+        // description: this.state.rooms[name].description
+    })
   }
 
   componentDidUpdate(prevProps) {
+    
     if (prevProps.match.params.roomName !== this.props.match.params.roomName) {
+      const name = this.props.match.params.roomName;
       this.loadRoom({
-        name: this.props.match.params.roomName,
+        name: name,
+        description: this.state.rooms[name].description
       })
     }
+  
   }
 
   loadRoom = (room) => {
