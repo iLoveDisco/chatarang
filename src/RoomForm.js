@@ -32,8 +32,6 @@ class RoomForm extends Component {
     const room = {...this.state.room}
     room.members = selectedValue
     this.setState({ room })
-
-    console.log(selectedValue)
   }
 
   users = () => {
