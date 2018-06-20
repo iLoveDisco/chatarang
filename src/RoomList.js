@@ -27,6 +27,32 @@ class RoomList extends Component {
     this.setState({ rooms })
   }
 
+  showRoom = (roomName, rooms) => {
+    if (rooms[roomName].public) {
+      return (<RoomLink
+        key={roomName}
+        room={rooms[roomName]}
+      />)
+    }
+    if (this.contains(rooms[roomName].members, this.props.user.uid)) {
+      return (<RoomLink
+        key={roomName}
+        room={rooms[roomName]}
+      />)
+    }  
+  }
+
+  contains = (memberArray, key) => {
+    if (memberArray) {
+      for(let i = 0; i < memberArray.length; i++) {
+        if(memberArray[i].value === key) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   render() {
     return (
       <Switch>
@@ -60,10 +86,7 @@ class RoomList extends Component {
                 <ul className={css(styles.list)}>
                   {
                     Object.keys(this.state.rooms).map(roomName => (
-                      <RoomLink
-                        key={roomName}
-                        room={this.state.rooms[roomName]}
-                      />
+                      this.showRoom(roomName, this.state.rooms)
                     ))
                   }
                 </ul>

@@ -33,6 +33,7 @@ class MessageForm extends Component {
           value={this.state.body}
           onChange={this.handleChange}
           className={css(styles.input)}
+          autoComplete="off"
         />
         <button type="submit" className={css(styles.button)}>Send</button>
       </form>
